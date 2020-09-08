@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,15 +16,30 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.silentselene.enterpriseedition.R;
 
+import java.util.Objects;
+
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater,
+                             final ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        final View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        Button button = root.findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout linearLayout = root.findViewById(R.id.cardList);
+                linearLayout.addView
+                        (GenerateCard.GetCard(container.getContext(), "", ""), 0);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
+                layoutParams.setMargins(24,8,24,8);
+                linearLayout.getChildAt(0).setLayoutParams(layoutParams);
+            }
+        });
+
         return root;
     }
 }
