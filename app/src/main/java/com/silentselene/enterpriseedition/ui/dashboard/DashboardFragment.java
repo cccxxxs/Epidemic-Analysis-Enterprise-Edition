@@ -9,21 +9,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.silentselene.enterpriseedition.MainActivity;
 import com.silentselene.enterpriseedition.R;
 import com.silentselene.enterpriseedition.data.DBAdapter;
 import com.silentselene.enterpriseedition.data.WiFiRecord;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class DashboardFragment extends Fragment {
