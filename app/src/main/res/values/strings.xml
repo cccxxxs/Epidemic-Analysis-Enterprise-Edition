@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">Enterprise Edition</string>
-    <string name="title_home">Wifi 监控</string>
-    <string name="title_manager">Wifi 管理</string>
+    <string name="title_home">WiFi 监控</string>
+    <string name="title_manager">WiFi 管理</string>
     <string name="title_settings">个人管理</string>
+
+    <string name="btn_login">登录</string>
+    <string name="name_login">登录</string>
+    <string name="usr_ID">账号: </string>
+    <string name="usr_pwd">密码: </string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="sign_up">用户注册</string>
+
+
 </resources>
