@@ -20,44 +20,68 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.silentselene.enterpriseedition.MainActivity;
 import com.silentselene.enterpriseedition.R;
+import com.silentselene.enterpriseedition.data.DBAdapter;
+import com.silentselene.enterpriseedition.data.WiFiRecord;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class DashboardFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    DBAdapter dbAdapter;
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        dbAdapter = new DBAdapter(root.getContext());
+        dbAdapter.open();
+        drawAll(root);
+
         Button button = root.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout linearLayout = root.findViewById(R.id.cardList);
                 EditText title = root.findViewById(R.id.alias);
                 EditText mac = root.findViewById(R.id.macAddress);
-                if (!Pattern.matches("^([A-Fa-f0-9]{2}[-,:]){5}[A-Fa-f0-9]{2}$", mac.getText())) {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(), "Mac address is illegal", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    return;
-                }
-                linearLayout.addView
-                        (GenerateCard.GetCard(container.getContext(),
-                                title.getText().toString(), mac.getText().toString()), 0);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
-                layoutParams.setMargins(24, 8, 24, 8);
-                linearLayout.getChildAt(0).setLayoutParams(layoutParams);
+                insertOne(root, mac.getText().toString(), title.getText().toString());
             }
         });
 
         return root;
+    }
+
+    public void drawAll(final View root) {
+        WiFiRecord[] wiFiRecords = dbAdapter.queryAllData();
+        if (wiFiRecords == null) return;
+        for (WiFiRecord wiFiRecord : wiFiRecords) {
+            LinearLayout linearLayout = root.findViewById(R.id.cardList);
+            linearLayout.addView
+                    (GenerateCard.GetCard(root.getContext(),
+                            wiFiRecord.getALIAS(), wiFiRecord.getMAC()), 0);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
+            layoutParams.setMargins(24, 8, 24, 8);
+            linearLayout.getChildAt(0).setLayoutParams(layoutParams);
+        }
+    }
+
+    public void insertOne(final View root, String mac, String alias) {
+        if (!Pattern.matches("^([A-Fa-f0-9]{2}[-,:]){5}[A-Fa-f0-9]{2}$", mac)) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(), "Mac address is illegal", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return;
+        }
+        dbAdapter.insert(new WiFiRecord(alias, mac));
+
+        LinearLayout linearLayout = root.findViewById(R.id.cardList);
+        linearLayout.addView
+                (GenerateCard.GetCard(root.getContext(), alias, mac), 0);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
+        layoutParams.setMargins(24, 8, 24, 8);
+        linearLayout.getChildAt(0).setLayoutParams(layoutParams);
     }
 }
