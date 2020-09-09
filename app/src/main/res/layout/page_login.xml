@@ -98,7 +98,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/forget_pwd"
+            android:id="@+id/btn_forget_pwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/forget_pwd"
@@ -120,7 +120,7 @@
             android:layout_height="match_parent"/>
 
         <Button
-            android:id="@+id/sign_up"
+            android:id="@+id/btn_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up"

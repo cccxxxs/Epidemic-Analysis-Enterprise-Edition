@@ -33,7 +33,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) {
                 int SUB_ACTIVITY_LOGIN = 1;
                 Intent login_page = new Intent(getActivity(), LoginPage.class);
-                startActivity(login_page);
+                startActivityForResult(login_page, SUB_ACTIVITY_LOGIN);
             }
         });
         return root;

@@ -11,5 +11,15 @@
     <string name="forget_pwd">忘记密码</string>
     <string name="sign_up">用户注册</string>
 
+    <string name="name_register">注册用户</string>
+    <string name="usr_tel">手机号: </string>
+    <string name="usr_code">验证码: </string>
+    <string name="get_code">获取验证码</string>
+    <string name="set_pwd">设置密码: </string>
+    <string name="set_pwd_again">验证密码: </string>
+    <string name="usr_id_card">身份证号: </string>
+    <string name="shop_name">商店名称: </string>
+    <string name="shop_loc">商店地址: </string>
+
 
 </resources>
