@@ -84,6 +84,12 @@ public class LoginPage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "请填写账号(手机号)", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if(id.length()<11){
+                    Toast.makeText(getApplicationContext(), "账号(手机号)格式错误", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 sendKeyAgain(id);
             }
         });

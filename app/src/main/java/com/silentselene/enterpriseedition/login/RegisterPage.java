@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.silentselene.enterpriseedition.R;
 
 import java.io.IOException;
@@ -29,13 +30,13 @@ import static com.silentselene.enterpriseedition.ModifyUI.setStatusBar;
 
 public class RegisterPage extends AppCompatActivity {
 
-    private EditText usr_tel;
-    private EditText usr_code;
-    private EditText usr_id_card;
-    private EditText usr_pwd;
-    private EditText check_pwd;
-    private EditText get_shop_name;
-    private EditText get_shop_loc;
+    private TextInputEditText usr_tel;
+    private TextInputEditText usr_code;
+    private TextInputEditText usr_id_card;
+    private TextInputEditText usr_pwd;
+    private TextInputEditText check_pwd;
+    private TextInputEditText get_shop_name;
+    private TextInputEditText get_shop_loc;
 
     private String check_code;
 
@@ -43,16 +44,16 @@ public class RegisterPage extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_register);
-        
+
         setStatusBar(RegisterPage.this, true, true);
 
-        usr_tel = (EditText) findViewById(R.id.usr_tel);
-        usr_code = (EditText) findViewById(R.id.usr_code);
-        usr_id_card = (EditText) findViewById(R.id.usr_id_card);
-        usr_pwd = (EditText) findViewById(R.id.set_pwd);
-        check_pwd = (EditText) findViewById(R.id.set_pwd_again);
-        get_shop_name = (EditText) findViewById(R.id.shop_name);
-        get_shop_loc = (EditText) findViewById(R.id.shop_loc);
+        usr_tel = (TextInputEditText) findViewById(R.id.usr_tel);
+        usr_code = (TextInputEditText) findViewById(R.id.usr_code);
+        usr_id_card = (TextInputEditText) findViewById(R.id.usr_id_card);
+        usr_pwd = (TextInputEditText) findViewById(R.id.set_pwd);
+        check_pwd = (TextInputEditText) findViewById(R.id.set_pwd_again);
+        get_shop_name = (TextInputEditText) findViewById(R.id.shop_name);
+        get_shop_loc = (TextInputEditText) findViewById(R.id.shop_loc);
 
         findViewById(R.id.btn_get_code).setOnClickListener(new View.OnClickListener() {
             @Override
