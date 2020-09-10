@@ -67,20 +67,22 @@ public class SettingsFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                Intent login_page = new Intent(getActivity(), LoginPage.class);
-                startActivity(login_page);
+                Intent loginPage = new Intent(getActivity(), LoginPage.class);
+                loginPage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(loginPage);
             }
         });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent login_page = new Intent(getActivity(), LoginPage.class);
-                startActivity(login_page);
+                Intent loginPage = new Intent(getActivity(), LoginPage.class);
+                loginPage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(loginPage);
             }
         });
 
-        if(LoginPage.isLogin(root.getContext())){
+        if (LoginPage.isLogin(root.getContext())) {
             info_layout.setVisibility(getView().VISIBLE);
             btn_login.setVisibility(getView().GONE);
 

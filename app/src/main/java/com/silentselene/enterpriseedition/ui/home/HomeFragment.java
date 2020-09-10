@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.silentselene.enterpriseedition.R;
 import com.silentselene.enterpriseedition.data.DBAdapter;
 import com.silentselene.enterpriseedition.data.WiFiRecord;
+import com.silentselene.enterpriseedition.login.LoginPage;
 
 import static com.silentselene.enterpriseedition.ui.home.GenerateCharts.getDangerList;
 
@@ -21,6 +22,10 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        if (!LoginPage.isLogin(root.getContext())) {
+            return root;
+        }
 
         dbAdapter = new DBAdapter(root.getContext());
         dbAdapter.open();

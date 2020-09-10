@@ -43,16 +43,17 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        try{
+        try {
             loadPreferencesFile();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         Log.d("FILE", "\n" + usr_info);
 
-        if(usr_info == null){
+        if (usr_info == null) {
             Intent loginPage = new Intent(MainActivity.this, LoginPage.class);
+            loginPage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(loginPage);
         }
     }

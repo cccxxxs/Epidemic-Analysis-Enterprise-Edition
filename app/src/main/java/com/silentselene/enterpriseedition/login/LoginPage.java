@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.silentselene.enterpriseedition.MainActivity;
 import com.silentselene.enterpriseedition.R;
 
 import org.json.JSONException;
@@ -131,7 +132,9 @@ public class LoginPage extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                finish();
+                Intent loginPage = new Intent(LoginPage.this, MainActivity.class);
+                loginPage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(loginPage);
             }
         });
     }
