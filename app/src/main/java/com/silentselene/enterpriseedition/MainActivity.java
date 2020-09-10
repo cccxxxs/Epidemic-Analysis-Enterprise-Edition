@@ -2,6 +2,7 @@ package com.silentselene.enterpriseedition;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.silentselene.enterpriseedition.login.LoginPage;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String FILE_NAME = "config.ini";
 
-    private String userPhone = null;
+    private String usr_info = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(userPhone == null){
+        Log.d("FILE", "\n" + usr_info);
+
+        if(usr_info == null){
             Intent loginPage = new Intent(MainActivity.this, LoginPage.class);
             startActivity(loginPage);
         }
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             byte[] readBytes = new byte[fis.available()];
             while (fis.read(readBytes) != -1) {
             }
-            userPhone = new String(readBytes);
+            usr_info = new String(readBytes);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

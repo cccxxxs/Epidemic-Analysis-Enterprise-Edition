@@ -42,15 +42,15 @@ public class RegisterPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_register);
 
-        usr_tel = (EditText)findViewById(R.id.usr_tel);
-        usr_code = (EditText)findViewById(R.id.usr_code);
-        usr_id_card = (EditText)findViewById(R.id.usr_id_card);
-        usr_pwd = (EditText)findViewById(R.id.set_pwd);
-        check_pwd = (EditText)findViewById(R.id.set_pwd_again);
-        get_shop_name = (EditText)findViewById(R.id.shop_name);
-        get_shop_loc = (EditText)findViewById(R.id.shop_loc);
+        usr_tel = (EditText) findViewById(R.id.usr_tel);
+        usr_code = (EditText) findViewById(R.id.usr_code);
+        usr_id_card = (EditText) findViewById(R.id.usr_id_card);
+        usr_pwd = (EditText) findViewById(R.id.set_pwd);
+        check_pwd = (EditText) findViewById(R.id.set_pwd_again);
+        get_shop_name = (EditText) findViewById(R.id.shop_name);
+        get_shop_loc = (EditText) findViewById(R.id.shop_loc);
 
-        btn_get_code = (Button)findViewById(R.id.btn_get_code);
+        btn_get_code = (Button) findViewById(R.id.btn_get_code);
 
         findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,17 +63,17 @@ public class RegisterPage extends AppCompatActivity {
                 String shop_name = get_shop_name.getText().toString();
                 String shop_loc = get_shop_loc.getText().toString();
 
-                if(pwd.length() < 8){
+                if (pwd.length() < 8) {
                     Toast.makeText(getApplicationContext(), "密码至少为8位", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(!pwd.equals(check)) {
+                if (!pwd.equals(check)) {
                     Toast.makeText(getApplicationContext(), "两次密码不同!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(id_card.length() != 18){
+                if (id_card.length() != 18) {
                     Toast.makeText(getApplicationContext(), "身份证错误!", Toast.LENGTH_SHORT).show();
 
                 }
@@ -119,13 +119,18 @@ public class RegisterPage extends AppCompatActivity {
 //                        }
 //                    });
 //                }else {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(RegisterPage.this, "注册成功，等待审核", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(RegisterPage.this, "注册成功，等待审核", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                finish();
 
             }
         });
