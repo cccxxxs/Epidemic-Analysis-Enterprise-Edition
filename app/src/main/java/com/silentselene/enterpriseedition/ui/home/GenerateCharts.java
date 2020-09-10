@@ -77,7 +77,7 @@ public class GenerateCharts {
                         String mac = iterator.next();
                         ret.put(mac, new HashMap<Integer, HashSet<String>>());
                         JSONObject times = result.getJSONObject(mac);
-                        Iterator<String> timeIterator = result.keys();
+                        Iterator<String> timeIterator = times.keys();
                         while (timeIterator.hasNext()) {
                             String time = timeIterator.next();
                             ret.get(mac).put(Integer.parseInt(time), new HashSet<String>());
@@ -138,6 +138,4 @@ public class GenerateCharts {
         }
         builder.build(suitLines, true);
     }
-
-
 }
