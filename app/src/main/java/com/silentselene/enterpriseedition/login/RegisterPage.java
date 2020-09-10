@@ -35,7 +35,7 @@ public class RegisterPage extends AppCompatActivity {
     private EditText get_shop_name;
     private EditText get_shop_loc;
 
-    private Button btn_get_code;
+    private String check_code;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,19 @@ public class RegisterPage extends AppCompatActivity {
         get_shop_name = (EditText) findViewById(R.id.shop_name);
         get_shop_loc = (EditText) findViewById(R.id.shop_loc);
 
-        btn_get_code = (Button) findViewById(R.id.btn_get_code);
+        findViewById(R.id.btn_get_code).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String tel = usr_tel.getText().toString();
+
+                if(tel.length()<11){
+                    Toast.makeText(getApplicationContext(), "手机号错误", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                getCheck_code(tel);
+            }
+        });
 
         findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,13 +90,46 @@ public class RegisterPage extends AppCompatActivity {
 
                 }
 
-                uploadRegisterInfo(tel, pwd, id_card, shop_name, shop_loc);
+                uploadRegisterInfo(tel, pwd, id_card, shop_name, shop_loc, code);
                 //Toast.makeText(getApplicationContext(),"注册成功，等待审核",Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    void uploadRegisterInfo(String user_tel, String pwd, String ID_card, String shop_name, String shop_loc) {
+    void getCheck_code(String usr_tel){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("phone", usr_tel)
+                .build();
+        Request request = new Request.Builder().url("http://123.56.117.101:8080/getRandomNum").post(requestBody).build();
+
+        Call call = okHttpClient.newCall(request);//发送请求
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(RegisterPage.this, "验证码发送失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("POST", "result: " + response.body().string());
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(RegisterPage.this, "验证码发送成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    void uploadRegisterInfo(String user_tel, String pwd, String ID_card, String shop_name, String shop_loc, String random) {
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("shop_userPhone", user_tel)
@@ -92,6 +137,7 @@ public class RegisterPage extends AppCompatActivity {
                 .add("ID_card", ID_card)
                 .add("shop_name", shop_name)
                 .add("shop_location", shop_loc)
+                .add("random", random)
                 .build();
         Request request = new Request.Builder().url("http://123.56.117.101:8080/shop_userRegister").post(requestBody).build();
 
@@ -110,28 +156,29 @@ public class RegisterPage extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("POST", "result: " + response.body().string());
-//                if(response.body().string().equals("false")){
-//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(RegisterPage.this, "该手机号已注册", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }else {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(RegisterPage.this, "注册成功，等待审核", Toast.LENGTH_SHORT).show();
+                String result = response.body().string();
+                Log.d("POST", "result: " + result);
+                if(result.equals("false")){
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(RegisterPage.this, "信息错误，请重试", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(RegisterPage.this, "注册成功，等待审核", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    finish();
                 }
-                finish();
-
             }
         });
     }

@@ -69,6 +69,52 @@ public class LoginPage extends AppCompatActivity {
                 startActivityForResult(register_page, SUB_ACTIVITY_REGISTER);
             }
         });
+
+        findViewById(R.id.btn_forget_pwd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = usr_id.getText().toString();
+
+                if(id.length()==0){
+                    Toast.makeText(getApplicationContext(), "请填写账号(手机号)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                sendKeyAgain(id);
+            }
+        });
+    }
+
+    private void sendKeyAgain(String id){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("phone", id)
+                .build();
+        Request request = new Request.Builder().url("http://123.56.117.101:8080/forgetPassword").post(requestBody).build();
+
+        Call call = okHttpClient.newCall(request);//发送请求
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginPage.this, "密码发送失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("POST", "result: " + response.body().string());
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginPage.this, "密码已发送成功，请查收", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     private void shopUserLogin(String id, String pwd){
