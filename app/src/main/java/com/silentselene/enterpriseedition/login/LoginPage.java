@@ -144,11 +144,15 @@ public class LoginPage extends AppCompatActivity {
         fos.close();
     }
 
-    public static boolean isLogin(Context context) throws IOException{
+    public static boolean isLogin(Context context) {
         try {
             FileInputStream fis = context.openFileInput(FILE_NAME);
-            if(fis.available() == 0){
-                return false;
+            try {
+                if (fis.available() == 0) {
+                    return false;
+                }
+            }catch (IOException ie){
+                ie.printStackTrace();
             }
         }catch (FileNotFoundException e){
             e.printStackTrace();

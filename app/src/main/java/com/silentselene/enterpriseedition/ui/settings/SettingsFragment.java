@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.card.MaterialCardView;
 import com.silentselene.enterpriseedition.R;
 import com.silentselene.enterpriseedition.login.LoginPage;
 
@@ -19,6 +21,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class SettingsFragment extends Fragment {
+
+    LinearLayout info_layout;
+    MaterialCardView btn_logout;
+
 
     private SettingsViewModel settingsViewModel;
 
@@ -31,7 +37,8 @@ public class SettingsFragment extends Fragment {
                 ViewModelProviders.of(this).get(SettingsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        final Button btn_logout = (Button)root.findViewById(R.id.btn_logout);
+        info_layout = root.findViewById(R.id.info_layout);
+        btn_logout = root.findViewById(R.id.btn_logout);
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +55,11 @@ public class SettingsFragment extends Fragment {
                 startActivity(login_page);
             }
         });
+
+        if(LoginPage.isLogin(root.getContext())){
+            info_layout.setVisibility(getView().VISIBLE);
+        }
+
         return root;
     }
 
