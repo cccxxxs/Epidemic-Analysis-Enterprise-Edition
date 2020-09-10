@@ -36,7 +36,6 @@ public class RegisterPage extends AppCompatActivity {
     private EditText get_shop_loc;
 
     private Button btn_get_code;
-    private Button btn_register;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +51,8 @@ public class RegisterPage extends AppCompatActivity {
         get_shop_loc = (EditText)findViewById(R.id.shop_loc);
 
         btn_get_code = (Button)findViewById(R.id.btn_get_code);
-        btn_register = (Button)findViewById(R.id.btn_register);
 
-        btn_register.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String tel = usr_tel.getText().toString();

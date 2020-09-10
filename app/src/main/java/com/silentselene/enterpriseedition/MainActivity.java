@@ -1,8 +1,10 @@
 package com.silentselene.enterpriseedition;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.silentselene.enterpriseedition.login.LoginPage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -10,7 +12,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
+
+    private final String FILE_NAME = "config.ini";
+
+    private String userPhone = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +35,31 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        try{
+            loadPreferencesFile();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        if(userPhone == null){
+            Intent loginPage = new Intent(MainActivity.this, LoginPage.class);
+            startActivity(loginPage);
+        }
     }
 
+    private void loadPreferencesFile() throws IOException {
+        try {
+            FileInputStream fis = openFileInput(FILE_NAME);
+            if (fis.available() == 0) {
+                return;
+            }
+            byte[] readBytes = new byte[fis.available()];
+            while (fis.read(readBytes) != -1) {
+            }
+            userPhone = new String(readBytes);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
