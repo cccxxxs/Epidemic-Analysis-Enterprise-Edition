@@ -35,7 +35,7 @@ public class LoginPage extends AppCompatActivity {
     private EditText usr_id;
     private EditText usr_pwd;
 
-    private final String FILE_NAME = "config.ini";
+    private static final String FILE_NAME = "config.ini";
     private String usr_phone = null;
 
     @Override
@@ -95,6 +95,16 @@ public class LoginPage extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
 
+                if(result.equals("")){
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginPage.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
+
                 Log.d("POST", "result: " + result);
                 try {
                     JSONObject shopInfo = new JSONObject(result);
@@ -134,18 +144,16 @@ public class LoginPage extends AppCompatActivity {
         fos.close();
     }
 
-    private void loadPreferencesFile() throws IOException {
+    public static boolean isLogin(Context context) throws IOException{
         try {
-            FileInputStream fis = openFileInput(FILE_NAME);
-            if (fis.available() == 0) {
-                return;
+            FileInputStream fis = context.openFileInput(FILE_NAME);
+            if(fis.available() == 0){
+                return false;
             }
-            byte[] readBytes = new byte[fis.available()];
-            while (fis.read(readBytes) != -1) {
-            }
-            usr_phone = new String(readBytes);
-        } catch (FileNotFoundException e) {
+        }catch (FileNotFoundException e){
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 }
