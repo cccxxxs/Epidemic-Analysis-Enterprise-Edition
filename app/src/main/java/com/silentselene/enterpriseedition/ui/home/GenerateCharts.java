@@ -133,6 +133,10 @@ public class GenerateCharts {
             int[] blue = {0xffd0e7ef, 0xffa5d4e2, 0xff6fc1c9, 0xff419eb7, 0xff3c919f, 0xff327c87, 0xff26616c};
             builder.add(lines, blue[j]);
         }
-        builder.build(suitLines, false);
+        try {
+            builder.build(suitLines, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
