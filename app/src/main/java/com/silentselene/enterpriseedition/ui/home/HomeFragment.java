@@ -52,6 +52,9 @@ public class HomeFragment extends Fragment {
         WiFiRecord[] wiFiRecords = dbAdapter.queryAllData();
         int flag = 0;
         StringBuilder macs = new StringBuilder("");
+        if (wiFiRecords == null) {
+            return root;
+        }
         for (WiFiRecord wiFiRecord : wiFiRecords) {
             if (flag != 0) {
                 macs.append(",\"").append(wiFiRecord.getMAC()).append("\"");
