@@ -1,6 +1,7 @@
 package com.silentselene.enterpriseedition.ui.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -11,9 +12,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import okhttp3.Call;
@@ -23,6 +28,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.linjiang.suitlines.SuitLines;
+import tech.linjiang.suitlines.Unit;
 
 public class GenerateCharts {
 
@@ -70,7 +77,7 @@ public class GenerateCharts {
                         String mac = iterator.next();
                         ret.put(mac, new HashMap<Integer, HashSet<String>>());
                         JSONObject times = result.getJSONObject(mac);
-                        Iterator<String> timeIterator = result.keys();
+                        Iterator<String> timeIterator = times.keys();
                         while (timeIterator.hasNext()) {
                             String time = timeIterator.next();
                             ret.get(mac).put(Integer.parseInt(time), new HashSet<String>());
@@ -88,31 +95,6 @@ public class GenerateCharts {
                             Toast.makeText(context, "Request success", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    //                    final List<AccessRecord> accessRecordList = new ArrayList<>();
-                    //                    for (int i = 0; i < jsonArray.length(); i++) {
-                    //                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    //                        String mac = jsonObject.getString("mac");
-                    //                        int user_level = jsonObject.getInt("user_level");
-                    //                        String date_str = jsonObject.getString("visitTime");
-                    //                        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date_str);
-                    //                        assert date != null;
-                    //                        accessRecordList.add(new AccessRecord(mac, 0, user_level,
-                    //                                new Date(date.getTime() - DateUtils.DAY_IN_MILLIS * 3), new Date(date.getTime() + DateUtils.DAY_IN_MILLIS * 3), date));
-                    //                        Log.d("POST_danger_item", "mac: " + mac + " user_level: " + user_level + " date: " + date);
-                    //                    }
-                    //                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    //                        @Override
-                    //                        public void run() {
-                    //                            if (context.stateList.get(0).state == AccessRecord.HIGH_RISK) return;
-                    //                            PredictOnePerson predictOnePerson = new PredictOnePerson(context.getMyWifiList(), accessRecordList);
-                    //                            int res = predictOnePerson.getJudgeLevel();
-                    //                            float num = predictOnePerson.getPredict();
-                    //                            if (res == AccessRecord.HIGH_RISK) {
-                    //                                context.updateStateTo(new Date().getTime(), AccessRecord.HIGH_RISK);
-                    //                                context.updateUi();
-                    //                            }
-                    //                        }
-                    //                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -120,9 +102,40 @@ public class GenerateCharts {
         });
     }
 
-    public static void drawCharts(View view, Set<String> strings) {
+    public static void drawCharts(SuitLines suitLines, String mac) {
+        Calendar c = Calendar.getInstance();
+        int now_hour = c.get(Calendar.HOUR_OF_DAY);
+        long time = c.getTimeInMillis();
+        time = time / (1000 * 60 * 60);
+        time = time - 7 * 24;
+        int hour = c.get(Calendar.HOUR_OF_DAY);
 
+        int[] color = {Color.RED, Color.GRAY, Color.BLACK, Color.BLUE, 0xFFF76055, 0xFF9B3655, 0xFFF7A055};
+        SuitLines.LineBuilder builder = new SuitLines.LineBuilder();
+        for (int j = 0; j < 7; j++) {
+            List<Unit> lines = new ArrayList<>();
+            info.get(mac);
+            for (int i = 0; i < 24; i++) {
+                time = time + 1;
+                c.setTimeInMillis(time * (1000 * 60 * 60));
+                hour = c.get(Calendar.HOUR_OF_DAY);
+
+                int val = 0;
+                HashMap<Integer, HashSet<String>> hashSetHashMap = info.get(mac);
+                if (hashSetHashMap != null) {
+                    HashSet<String> stringHashSet = hashSetHashMap.get((int) time);
+                    if (stringHashSet != null) {
+                        val = stringHashSet.size();
+                    }
+                }
+//                lines.add(new Unit(new SecureRandom().nextInt(128), (hour > now_hour ? "Y+" :
+//                        "T+") + hour));
+                lines.add(new Unit(val, (hour > now_hour ? "Y+" :
+                        "T+") + hour));
+            }
+            int[] blue = {0xffd0e7ef,0xffa5d4e2,0xff6fc1c9,0xff419eb7,0xff3c919f,0xff327c87,0xff26616c};
+            builder.add(lines, blue[j]);
+        }
+        builder.build(suitLines, true);
     }
-
-
 }
