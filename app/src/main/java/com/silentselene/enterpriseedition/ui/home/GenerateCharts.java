@@ -5,21 +5,18 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -133,9 +130,9 @@ public class GenerateCharts {
                 lines.add(new Unit(val, (hour > now_hour ? "Y+" :
                         "T+") + hour));
             }
-            int[] blue = {0xffd0e7ef,0xffa5d4e2,0xff6fc1c9,0xff419eb7,0xff3c919f,0xff327c87,0xff26616c};
+            int[] blue = {0xffd0e7ef, 0xffa5d4e2, 0xff6fc1c9, 0xff419eb7, 0xff3c919f, 0xff327c87, 0xff26616c};
             builder.add(lines, blue[j]);
         }
-        builder.build(suitLines, true);
+        builder.build(suitLines, false);
     }
 }
