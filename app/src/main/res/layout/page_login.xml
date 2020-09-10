@@ -58,7 +58,7 @@
         <EditText
             android:id="@+id/usr_pwd"
             android:autofillHints=""
-            android:inputType="text"
+            android:inputType="textPassword"
             tools:ignore="LabelFor"
             android:layout_height="40dp"
             android:layout_width="180dp" />
