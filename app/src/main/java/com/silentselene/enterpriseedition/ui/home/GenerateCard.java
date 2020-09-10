@@ -4,6 +4,7 @@ package com.silentselene.enterpriseedition.ui.home;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -32,11 +33,15 @@ public class GenerateCard {
         mac.setText(mac_text);
         CheckBox checkBox = (CheckBox) (linearLayout1.getChildAt(0));
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            SuitLines presuitLines;
+            SuitLines presuitLines=null;
 
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    if (presuitLines != null) {
+                        presuitLines.setVisibility(View.VISIBLE);
+                        return ;
+                    }
                     final SuitLines suitLines = new SuitLines(context);
                     presuitLines = suitLines;
                     LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(-1, 200);
@@ -54,8 +59,7 @@ public class GenerateCard {
                     }).start();
                 } else {
                     if (presuitLines != null) {
-                        LinearLayout father = ((LinearLayout) cardView.getParent());
-                        father.removeView(presuitLines);
+                        presuitLines.setVisibility(View.GONE);
                     }
                 }
             }

@@ -127,7 +127,7 @@ public class GenerateCharts {
                 }
 //                lines.add(new Unit(new SecureRandom().nextInt(128), (hour > now_hour ? "Y+" :
 //                        "T+") + hour));
-                lines.add(new Unit(val, (hour > now_hour ? "Y+" :
+                lines.add(new Unit(val+0.1f, (hour > now_hour ? "Y+" :
                         "T+") + hour));
             }
             int[] blue = {0xffd0e7ef, 0xffa5d4e2, 0xff6fc1c9, 0xff419eb7, 0xff3c919f, 0xff327c87, 0xff26616c};
