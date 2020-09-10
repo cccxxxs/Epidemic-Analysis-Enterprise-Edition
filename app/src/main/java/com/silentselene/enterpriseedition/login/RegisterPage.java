@@ -25,6 +25,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.silentselene.enterpriseedition.ModifyUI.setStatusBar;
+
 public class RegisterPage extends AppCompatActivity {
 
     private EditText usr_tel;
@@ -41,6 +43,8 @@ public class RegisterPage extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_register);
+        
+        setStatusBar(RegisterPage.this, true, true);
 
         usr_tel = (EditText) findViewById(R.id.usr_tel);
         usr_code = (EditText) findViewById(R.id.usr_code);

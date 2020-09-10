@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.silentselene.enterpriseedition.MainActivity;
 import com.silentselene.enterpriseedition.R;
 
@@ -31,10 +32,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.silentselene.enterpriseedition.ModifyUI.setStatusBar;
+
 public class LoginPage extends AppCompatActivity {
 
-    private EditText usr_id;
-    private EditText usr_pwd;
+    private TextInputEditText usr_id;
+    private TextInputEditText usr_pwd;
 
     private static final String FILE_NAME = "config.ini";
     private String usr_phone = null;
@@ -44,8 +47,10 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_login);
 
-        usr_id = (EditText)findViewById(R.id.usr_id);
-        usr_pwd = (EditText)findViewById(R.id.usr_pwd);
+        setStatusBar(LoginPage.this, true, true);
+
+        usr_id = (TextInputEditText) findViewById(R.id.usr_id);
+        usr_pwd = (TextInputEditText) findViewById(R.id.usr_pwd);
 
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
